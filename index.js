@@ -20,11 +20,8 @@ const auth = require("./middleware/auth");
 const redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
 
 //controllers
-
-const createPostController = require('./controllers/createPost');
+const postControllers = require('./controllers/posts');
 const homePageController = require('./controllers/homePage');
-const storePostController = require('./controllers/storePost');
-const getPostController = require('./controllers/getPost');
 const createUserController = require('./controllers/createUser');
 const storeUserController = require('./controllers/storeUser');
 const loginController = require('./controllers/login');
@@ -69,14 +66,17 @@ app.use('*', (req, res, next) => {
 
 //requests
 app.get('/', homePageController);
-app.get('/posts/new', auth, createPostController);
-app.post('/posts/store', storePostController);
-app.get('/posts/:id', getPostController);
+//posts
+app.get('/posts/new', auth, postControllers.create);
+app.get('/posts/:id', postControllers.get);
+app.post('/posts/store', storePost, postControllers.store);
+
+
+app.get("/auth/logout", auth, logoutController);
 app.get('/auth/login', redirectIfAuthenticated, loginController);
 app.post('/users/login', redirectIfAuthenticated, loginUserController);
 app.get('/auth/register', redirectIfAuthenticated, createUserController);
 app.post('/users/register', redirectIfAuthenticated, storeUserController);
-app.get("/auth/logout", auth, logoutController);
 
 app.get('/about', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'pages/about.html'));
