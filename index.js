@@ -21,12 +21,8 @@ const redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
 
 //controllers
 const postControllers = require('./controllers/posts');
+const userControllers = require('./controllers/users');
 const homePageController = require('./controllers/homePage');
-const createUserController = require('./controllers/createUser');
-const storeUserController = require('./controllers/storeUser');
-const loginController = require('./controllers/login');
-const loginUserController = require('./controllers/loginUser');
-const logoutController = require('./controllers/logout');
 
 
 const app = new express();
@@ -72,11 +68,11 @@ app.get('/posts/:id', postControllers.get);
 app.post('/posts/store', storePost, postControllers.store);
 
 
-app.get("/auth/logout", auth, logoutController);
-app.get('/auth/login', redirectIfAuthenticated, loginController);
-app.post('/users/login', redirectIfAuthenticated, loginUserController);
-app.get('/auth/register', redirectIfAuthenticated, createUserController);
-app.post('/users/register', redirectIfAuthenticated, storeUserController);
+app.get("/auth/logout", auth, userControllers.logout);
+app.get('/auth/login', redirectIfAuthenticated, userControllers.authenticate);
+app.post('/users/login', redirectIfAuthenticated, userControllers.login);
+app.get('/auth/register', redirectIfAuthenticated, userControllers.store);
+app.post('/users/register', redirectIfAuthenticated, userControllers.create);
 
 app.get('/about', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'pages/about.html'));
