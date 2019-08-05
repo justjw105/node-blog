@@ -69,10 +69,10 @@ app.post('/posts/store', storePost, postControllers.store);
 
 
 app.get("/auth/logout", auth, userControllers.logout);
-app.get('/auth/login', redirectIfAuthenticated, userControllers.authenticate);
-app.post('/users/login', redirectIfAuthenticated, userControllers.login);
-app.get('/auth/register', redirectIfAuthenticated, userControllers.store);
-app.post('/users/register', redirectIfAuthenticated, userControllers.create);
+app.get('/auth/login', redirectIfAuthenticated, userControllers.login);
+app.post('/users/login', redirectIfAuthenticated, userControllers.authenticate);
+app.get('/auth/register', redirectIfAuthenticated, userControllers.create);
+app.post('/users/register', redirectIfAuthenticated, userControllers.store);
 
 app.get('/about', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'pages/about.html'));
